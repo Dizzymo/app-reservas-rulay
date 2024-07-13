@@ -14,7 +14,7 @@ page_title = "New Rulay"
 page_icon = "💈"
 layout = "centered"
 
-horas = ["9:00", "10:00", "11:00", "12:00", "13:00"]
+horas = ["09:00", "10:00", "11:00", "12:00", "13:00"]
 servicio_lista = ["Corte - $ 10.000", "Corte y cejas - $12.000", "Cejas - $1.000"]
 
 #google sheet
@@ -57,27 +57,22 @@ selected = option_menu(menu_title=None, options=["Reservar","Precios","Detalles"
 
 if selected == "Detalles":
     st.subheader("Ubicación")
-    st.markdown("""<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d415.6067527995837!2d-70.5596603!3d-33.5571689!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662d1b69fc3c12b%3A0x322ab4a3be991442!2sNew%20Rulay%20Barbershop!5e0!3m2!1ses!2scl!4v1720761203803!5m2!1ses!2scl" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>""",unsafe_allow_html=True)
+    st.markdown("""
+        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d415.6067527995837!2d-70.5596603!3d-33.5571689!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662d1b69fc3c12b%3A0x322ab4a3be991442!2sNew%20Rulay%20Barbershop!5e0!3m2!1ses!2scl!4v1720761203803!5m2!1ses!2scl" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    """, unsafe_allow_html=True)
 
     st.subheader("Horarios")
-    dia, hora = st.columns(2)
-    
-    with dia:
-        st.text("Lunes")
-        st.text("Martes")
-        st.text("Miércoles")
-        st.text("Jueves")
-        st.text("Viernes")
-        st.text("Sábados")
-    
-    with hora:
-        st.text("10:00 a 21:00")
-        st.text("10:00 a 21:00")
-        st.text("10:00 a 21:00")
-        st.text("10:00 a 21:00")
-        st.text("10:00 a 21:00")
-        st.text("11:00 a 19:00")
-    
+    st.write("""
+        | Día       | Horario       |
+        |-----------|---------------|
+        | Lunes     | 10:00 a 21:00 |
+        | Martes    | 10:00 a 21:00 |
+        | Miércoles | 10:00 a 21:00 |
+        | Jueves    | 10:00 a 21:00 |
+        | Viernes   | 10:00 a 21:00 |
+        | Sábados   | 11:00 a 19:00 |
+    """)
+
     st.subheader("Contacto")
     st.text("📞 +569 8856 7741")
 
@@ -85,18 +80,14 @@ if selected == "Detalles":
     st.markdown("Síguenos [aquí](https://www.instagram.com/barbershop.rulay/) en Instagram")
 
 if selected == "Precios":
-    st.subheader("Horarios")
-    descripcion, precio = st.columns(2)
-
-    with descripcion:
-        st.text("Degradado")
-        st.text("Cejas")
-        st.text("Full")
- 
-    with precio:
-        st.text("$10.000")
-        st.text("$2.000")
-        st.text("$13.000")
+    st.subheader("Precios")
+    st.write("""
+        | Servicio             | Precio  |
+        |----------------------|---------|
+        | Degradado            | $10.000 |
+        | Cejas                | $2.000  |
+        | Full                 | $13.000 |
+    """)
 
 if selected == "Reservar":
     st.subheader("Reservar")
@@ -159,14 +150,4 @@ if selected == "Reservar":
 
                 st.success("Su corte de pelo ha sido reservado de forma exitosa")
 
-                # Esperar unos segundos antes de limpiar los campos y recargar la página
-                time.sleep(5)
-
-                # Actualizar horas disponibles después de reservar
-                hours_block = calendar.get_events_start_time(str(fecha))
-                result_hours = list(np.setdiff1d(horas, hours_block))
-                result_hours = sort_hours(result_hours)  # Ordenar las horas disponibles
-                st.session_state.result_hours = result_hours
-
-                # Recargar la página
-                st.experimental_rerun()
+                
