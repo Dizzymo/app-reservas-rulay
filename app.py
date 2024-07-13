@@ -14,7 +14,7 @@ page_title = "New Rulay"
 page_icon = "💈"
 layout = "centered"
 
-horas = ["09:00", "10:00", "11:00", "12:00", "13:00"]
+horas = ["09:00", "10:00", "12:00", "13:00", "15:00", "16:00","17:00", "18:00"]  # Horas disponibles en incrementos de 1.5 horas
 servicio_lista = ["Corte - $ 10.000", "Corte y cejas - $12.000", "Cejas - $1.000"]
 
 #google sheet
@@ -39,7 +39,7 @@ def generate_uid():
 
 def add_hour_and_half(time):
     parsed_time = dt.datetime.strptime(time, "%H:%M").time()
-    new_time = (dt.datetime.combine(dt.date.today(), parsed_time) + dt.timedelta(hours=1, minutes=30)).time()
+    new_time = (dt.datetime.combine(dt.date.today(), parsed_time) + dt.timedelta(hours=1, minutes=00)).time()
     return new_time.strftime("%H:%M")
 
 def sort_hours(hours):
@@ -150,4 +150,14 @@ if selected == "Reservar":
 
                 st.success("Su corte de pelo ha sido reservado de forma exitosa")
 
-                
+                # Esperar unos segundos antes de limpiar los campos y recargar la página
+                time.sleep(5)
+
+                # Actualizar horas disponibles después de reservar
+                hours_block = calendar.get_events_start_time(str(fecha))
+                result_hours = list(np.setdiff1d(horas, hours_block))
+                result_hours = sort_hours(result_hours)  # Ordenar las horas disponibles
+                st.session_state.result_hours = result_hours
+
+                # Recargar la página
+                st.experimental_rerun()
